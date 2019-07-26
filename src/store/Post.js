@@ -11,7 +11,7 @@ const state = {
         "users_id": [],
         "sites_id": "1",
         "companies_id": "",
-        "types_id": "1",
+        "post_types_id": "1",
         "category_id": 0,
         "title": "",
         "slug": "",
@@ -60,7 +60,7 @@ const mutations = {
     },
     // TODO: rename to POST_TYPES_ID
     SET_POST_TYPE(state, type) {
-        state.data.types_id = type;
+        state.data.post_types_id = type;
     },
     SET_POST_TAGS(state, tags) {
         state.data.tags = tags;
@@ -112,7 +112,7 @@ const actions = {
             "users_id": [],
             "sites_id": 1,
             "companies_id": "",
-            "types_id": "1",
+            "post_types_id": "1",
             "category_id": 0,
             "title": "",
             "slug": "",

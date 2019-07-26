@@ -355,8 +355,8 @@ export default {
         },
         postType: {
             get() {
-                const typeId = this.$store.state.Post.data.types_id;
-                return this.postTypes.find(type => type.id === typeId);
+                const postTypeId = this.$store.state.Post.data.post_types_id;
+                return this.postTypes.find(type => type.id === postTypeId);
             },
             set(type) {
                 this.$store.commit("Post/SET_POST_TYPE", type.id);
