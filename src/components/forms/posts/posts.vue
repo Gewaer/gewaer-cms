@@ -50,6 +50,23 @@
             <div class="row">
                 <div class="col-12 col-md">
                     <div class="form-group-multiselect">
+                        <label :class="{'text-danger': errors.has('game') }">
+                            Game
+                            <span v-if="errors.has('game')">(required)</span>
+                        </label>
+                        <multiselect-wrapper
+                            v-validate="'required'"
+                            v-model="postGame"
+                            :endpoint="gameFieldProps.endpoint"
+                            :multiselect-props="gameFieldProps.multiselectProps"
+                            :class="{'border-danger': errors.has('game')}"
+                            field="name"
+                            name="game"
+                        />
+                    </div>
+                </div>
+                <div class="col-12 col-md">
+                    <div class="form-group-multiselect">
                         <label :class="{'text-danger': errors.has('author') }">
                             Author
                             <span v-if="errors.has('author')">(required)</span>
@@ -57,8 +74,8 @@
                         <multiselect-wrapper
                             v-validate="'required'"
                             v-model="postAuthor"
-                            :endpoint="usersEndpoint"
-                            :multiselect-props="usersMultiselectProps"
+                            :endpoint="userFieldProps.endpoint"
+                            :multiselect-props="userFieldProps.multiselectProps"
                             :class="{'border-danger': errors.has('author')}"
                             field="firstname"
                             data-vv-as="Author"
@@ -87,8 +104,8 @@
                         <multiselect-wrapper
                             v-validate="'required'"
                             v-model="postCollaborator"
-                            :endpoint="usersEndpoint"
-                            :multiselect-props="usersMultiselectProps"
+                            :endpoint="userFieldProps.endpoint"
+                            :multiselect-props="userFieldProps.multiselectProps"
                             :class="{'border-danger': errors.has('collaborator')}"
                             field="firstname"
                             data-vv-as="Collaborator"
@@ -179,8 +196,8 @@
                         <multiselect-wrapper
                             v-validate="'required'"
                             v-model="postCategory"
-                            :endpoint="categoryEndpoint"
-                            :multiselect-props="categoryMultiselectProps"
+                            :endpoint="categoryFieldProps.endpoint"
+                            :multiselect-props="categoryFieldProps.multiselectProps"
                             :class="{'border-danger': errors.has('category')}"
                             field="title"
                             data-vv-as="Category"
@@ -203,8 +220,8 @@
                         <multiselect-wrapper
                             v-validate="'required'"
                             v-model.lazy="postType"
-                            :endpoint="postTypeEndpoint"
-                            :multiselect-props="postTypeMultiselectProps"
+                            :endpoint="postTypeField.endpoint"
+                            :multiselect-props="postTypeField.multiselectProps"
                             :class="{'border-danger': errors.has('type')}"
                             field="title"
                             data-vv-as="Type"
@@ -226,8 +243,8 @@
                         <multiselect-wrapper
                             v-validate="'required'"
                             v-model.lazy="postTags"
-                            :endpoint="postTagsEndpoint"
-                            :multiselect-props="postTagsMultiselectProps"
+                            :endpoint="postTagsField.endpoint"
+                            :multiselect-props="postTagsField.multiselectProps"
                             :class="{'border-danger': errors.has('tags')}"
                             field="title"
                             data-vv-as="Tags"
@@ -330,33 +347,47 @@ export default {
     mixins: [validationMixins],
     data() {
         return {
-            categoryEndpoint: "categories",
-            categoryMultiselectProps: {
-                "single": true,
-                "label": "title"
-            },
-            postTypeEndpoint: "posts-types",
-            postTypeMultiselectProps: {
-                "single": true,
-                "label": "title"
-            },
-            postTagsEndpoint: "tags",
-            postTagsMultiselectProps: {
-                "multiple": true,
-                "label": "title"
-            },
             postsEndpoint: "posts",
+            fileSystemEndpoint: "filesystem",
+            categoryFieldProps: {
+                endpoint: "categories",
+                multiselectProps: {
+                    "single": true,
+                    "label": "title"
+                }
+            },
+            postTypeField: {
+                endpoint: "posts-types",
+                multiselectProps: {
+                    "single": true,
+                    "label": "title"
+                }
+            },
+            postTagsField: {
+                endpoint: "tags",
+                multiselectProps: {
+                    "multiple": true,
+                    "label": "title"
+                }
+            },
+            userFieldProps: {
+                endpoint: "/users",
+                multiselectProps: {
+                    label: "firstname"
+                }
+            },
+            gameFieldProps: {
+                endpoint: "games",
+                multiselectProps: {
+                    "label": "name"
+                }
+            },
             uppyConfig: {
                 debug: process.env.NODE_ENV !== "production",
                 restrictions: {
                     maxNumberOfFiles: 100,
                     allowedFileTypes: ["image/*"]
                 }
-            },
-            fileSystemEndpoint: "filesystem",
-            usersEndpoint: "/users",
-            usersMultiselectProps: {
-                "label": "firstname"
             }
         }
     },
@@ -451,6 +482,14 @@ export default {
                 this.$store.commit("Post/SET_POST_COLLABORATOR", collaborator);
             }
         },
+        postGame: {
+            get() {
+                return this.$store.state.Post.data.game;
+            },
+            set(game) {
+                this.$store.commit("Post/SET_POST_GAME", game);
+            }
+        },
         uppyXhrConfig() {
             return {
                 formData: true,
@@ -482,12 +521,12 @@ export default {
                 const clonedPost = cloneDeep(this.post);
                 clonedPost.category = clonedPost.category.id;
 
-                // TODO: This prop should not be needed but #teambackend flagged it as required.
                 clonedPost.category_id = clonedPost.category;
                 clonedPost.tags = clonedPost.tags.map(tag => tag.id);
                 clonedPost.post_types_id = clonedPost.type.id;
                 clonedPost.collaborator_id = clonedPost.collaborator.id;
                 clonedPost.author_id = clonedPost.author.id;
+                clonedPost.games_id = clonedPost.game.id;
 
                 axios({
                     url,

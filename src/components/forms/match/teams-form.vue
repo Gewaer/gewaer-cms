@@ -18,6 +18,7 @@
                         :endpoint="teamsEndpoint"
                         :multiselect-props="teamsMultiselectCustomProps"
                         :class="{'border-danger': errors.has('team-a')}"
+                        title="Select match team A"
                         field="name"
                         data-vv-as="Team A"
                         name="team-a"
@@ -36,6 +37,7 @@
                         :multiselect-props="teamsMultiselectCustomProps"
                         :endpoint="teamsEndpoint"
                         :class="{'border-danger': errors.has('team-b')}"
+                        title="Select match team B"
                         field="name"
                         data-vv-as="Team B"
                         name="team-b"
@@ -51,6 +53,7 @@
                         v-model="winningTeam"
                         :multiselect-props="teamsMultiselectCustomProps"
                         :endpoint="teamsEndpoint"
+                        title="Select match winner team"
                         field="name"
                         data-vv-as="Winning Team"
                         name="winning-team"
@@ -61,6 +64,7 @@
     </div>
 </template>
 <script>
+
 export default {
     name: "TeamsForm",
     components: {

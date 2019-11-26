@@ -20,5 +20,6 @@ export function isURL(str) {
 }
 
 export const dateFormats = {
-    dateTimeStamp: "YYYY-MM-DD HH:mm:ss"
+    dateTimeTimeStamp: "YYYY-MM-DD HH:mm:ss",
+    dateTimeStamp: "YYYY-MM-DD"
 }

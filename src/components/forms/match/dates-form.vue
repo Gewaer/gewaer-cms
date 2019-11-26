@@ -95,7 +95,7 @@ export default {
                 return moment(startDate).tz(this.timezone).toDate();
             },
             set(date) {
-                const startDate = date ? moment.utc(date).format(dateFormats.dateTimeStamp) : null;
+                const startDate = date ? moment.utc(date).format(dateFormats.dateTimeTimeStamp) : null;
                 this.$store.commit("Match/SET_START_DATE_TIME", startDate);
             }
         },
@@ -108,7 +108,7 @@ export default {
                 return moment(endDate).tz(this.timezone).toDate();
             },
             set(date) {
-                const endDate = date ? moment.utc(date).format(dateFormats.dateTimeStamp) : null;
+                const endDate = date ? moment.utc(date).format(dateFormats.dateTimeTimeStamp) : null;
                 this.$store.commit("Match/SET_END_DATE_TIME", endDate);
             }
         }
