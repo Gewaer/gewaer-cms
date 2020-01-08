@@ -21,6 +21,7 @@
 </template>
 
 <script>
+
 const { GwBrowse } = require(`@/import.${process.env.VUE_APP_IMPORTS}`);
 import { mapState } from "vuex";
 

@@ -54,7 +54,8 @@
                 <el-date-picker
                     v-model="publishedAt"
                     :clearable="false"
-                    :format="'dd MMM yyyy hh:mm A'"
+                    :format="'yyyy-MM-dd HH:mm'"
+                    :value-format="'yyyy-MM-dd HH:mm'"
                     class="datetime-picker"
                     size="small"
                     type="datetime"
