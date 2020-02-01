@@ -2,7 +2,7 @@
     <form
         class="resource-form"
         novalidate
-        @submit.prevent="$_sendResourceForm('/categories')"    
+        @submit.prevent="$_sendResourceForm('/categories')"
     >
         <div class="row">
             <div class="col">
@@ -49,7 +49,7 @@
                     :title="isLoading ? 'Processing, wait a moment...' : 'Cancel'"
                     type="button"
                     class="btn btn-danger"
-                    @click="$emit('form-cancelled')"
+                    @click="$_onFormCancelled"
                 >
                     Cancel
                 </button>
@@ -67,6 +67,18 @@ import postFormMixins from "@/mixins/postFormMixins";
 
 export default {
     name: "PostCategoryForm",
-    mixins: [postFormMixins]
+    mixins: [postFormMixins],
+    created() {
+        if (this.$_isEditingForm() && !this.openedInModal) {
+            this.fetchCategories();
+        }
+    },
+    methods: {
+        fetchCategories() {
+            axios.get(`/categories/${this.$route.params.id}`).then(({ data: category }) => {
+                this.resourceData = category;
+            });
+        }
+    }
 }
 </script>

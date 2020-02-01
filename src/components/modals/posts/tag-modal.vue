@@ -7,7 +7,7 @@
         <div class="post-tag-modal">
             <h3>Add Tag</h3>
             <post-tag-form
-                :is-from-modal="true"
+                :opened-in-modal="true"
                 @form-cancelled="onFormCancelled"
                 @form-saved="onFormSaved"
             />
