@@ -7,7 +7,7 @@
         <div class="post-category-modal">
             <h3>Add Category</h3>
             <post-category-form
-                :is-from-modal="true"
+                :opened-in-modal="true"
                 @form-cancelled="onFormCancelled"
                 @form-saved="onFormSaved"
             />

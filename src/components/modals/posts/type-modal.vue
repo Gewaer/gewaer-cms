@@ -7,7 +7,7 @@
         <div class="post-type-modal">
             <h3>Add Type</h3>
             <post-type-form
-                :is-from-modal="true"
+                :opened-in-modal="true"
                 @form-cancelled="onFormCancelled"
                 @form-saved="onFormSaved"
             />

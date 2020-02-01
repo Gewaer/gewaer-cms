@@ -11,6 +11,12 @@ export default {
             isLoading: false
         }
     },
+    props: {
+        openedInModal: {
+            type: Boolean,
+            default: false
+        }
+    },
     computed: {
         resourceTitle: {
             get() {
@@ -72,12 +78,20 @@ export default {
                     return;
                 }
 
+                const url = this.$_isEditingForm() ? `${endpoint}/${this.$route.params.id}` : endpoint;
+                const method = this.$_isEditingForm() ? "PUT" : "POST";
+
                 axios({
-                    url: endpoint,
-                    method: "POST",
+                    url,
+                    method,
                     data: this.resourceData
                 }).then(({ data: newlyCreatedResource }) => {
-                    this.$emit("form-saved", newlyCreatedResource);
+                    if (this.openedInModal) {
+                        this.$emit("form-saved", newlyCreatedResource);
+                    } else {
+                        this.$router.push({ name: "browse", params: { resource: this.$route.params.resource } });
+                    }
+
                     this.$notify({
                         text: `${newlyCreatedResource.title} was saved successfully.`,
                         type: "success"
@@ -91,6 +105,18 @@ export default {
                     this.isLoading = false;
                 });
             }
+        },
+        $_onFormCancelled() {
+            if (this.openedInModal) {
+                this.$emit("form-cancelled")
+                return;
+            }
+            this.$router.push({ name: "browse", params: { resource: this.$route.params.resource } });
+        },
+        $_isEditingForm() {
+            const hasRouteId = this.$route.params.id;
+            const isPostResource = this.$route.params.resource == "posts";
+            return hasRouteId && !isPostResource;
         }
     }
 }

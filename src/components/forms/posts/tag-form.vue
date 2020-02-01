@@ -49,7 +49,7 @@
                     :title="isLoading ? 'Processing, wait a moment...' : 'Cancel'"
                     type="button"
                     class="btn btn-danger"
-                    @click="$emit('form-cancelled')"
+                    @click="$_onFormCancelled"
                 >
                     Cancel
                 </button>
@@ -67,6 +67,19 @@ import postFormMixins from "@/mixins/postFormMixins";
 
 export default {
     name: "PostTagForm",
-    mixins: [postFormMixins]
+    mixins: [postFormMixins],
+    created() {
+        if (this.$_isEditingForm() && !this.openedInModal) {
+            this.fetchTag();
+        }
+    },
+    methods: {
+        fetchTag() {
+            axios.get(`/tags/${this.$route.params.id}`).then(({ data: tag }) => {
+                this.resourceData = tag;
+            });
+        }
+    }
+
 }
 </script>
