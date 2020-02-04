@@ -25,7 +25,7 @@
         <div class="row justify-content-end">
             <div class="col-auto">
                 <button
-                    :disabled="isLoading"
+                    :class="{ deactivated: isLoading }"
                     :title="isLoading ? 'Processing, wait a moment...' : 'Cancel'"
                     type="button"
                     class="btn btn-danger"
@@ -35,7 +35,7 @@
                 </button>
             </div>
             <div class="col-auto">
-                <button class="btn btn-primary">Save</button>
+                <button :class="{ deactivated: isLoading }" class="btn btn-primary">Save</button>
             </div>
         </div>
     </form>
